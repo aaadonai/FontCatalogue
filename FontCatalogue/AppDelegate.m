@@ -7,6 +7,7 @@
 //
 
 #import "AppDelegate.h"
+#import "FontTableViewController.h"
 
 @implementation AppDelegate
 
@@ -18,6 +19,18 @@
 {
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     // Override point for customization after application launch.
+    self.fontTableViewController = [[FontTableViewController alloc]
+                                 initWithStyle:UITableViewStylePlain];
+    
+    self.navigationController = [[UINavigationController alloc]
+                             initWithRootViewController:self.fontTableViewController];
+    
+    //self.navigationController.navigationBar.tintColor = kDarkBlue;
+    
+    [self.window addSubview:self.navigationController.view];
+    
+    self.window.rootViewController = self.navigationController;
+
     self.window.backgroundColor = [UIColor whiteColor];
     [self.window makeKeyAndVisible];
     return YES;

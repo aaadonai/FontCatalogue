@@ -8,9 +8,16 @@
 
 #import <UIKit/UIKit.h>
 
+@class FontTableViewController;
+
 @interface AppDelegate : UIResponder <UIApplicationDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
+
+@property (nonatomic, retain) UINavigationController *navigationController;
+
+@property (nonatomic, retain) FontTableViewController *fontTableViewController;
+
 
 @property (readonly, strong, nonatomic) NSManagedObjectContext *managedObjectContext;
 @property (readonly, strong, nonatomic) NSManagedObjectModel *managedObjectModel;

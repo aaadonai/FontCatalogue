@@ -27,11 +27,12 @@
 {
     [super viewDidLoad];
     
-    self.fontCatalogue = [UIFont familyNames];
+    self.fontCatalogue = [NSMutableArray arrayWithArray:[UIFont familyNames]];
     
+    self.navigationItem.title = @"Fonts";
     
     UIBarButtonItem *menuButton = [[UIBarButtonItem alloc] initWithTitle:@"Menu" style:UIBarButtonItemStylePlain target:self action:@selector(openMenuPopOver:)];
-    self.navigationItem.rightBarButtonItem = menuButton;
+    self.navigationItem.rightBarButtonItems = [NSArray arrayWithObjects:menuButton,self.editButtonItem, nil];
     
     
     // Uncomment the following line to preserve selection between presentations.
@@ -77,16 +78,16 @@
     return cell;
 }
 
-/*
+
 // Override to support conditional editing of the table view.
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
 {
     // Return NO if you do not want the specified item to be editable.
     return YES;
 }
-*/
 
-/*
+
+
 // Override to support editing the table view.
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -98,23 +99,23 @@
         // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
     }   
 }
-*/
 
-/*
+
+
 // Override to support rearranging the table view.
 - (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath
 {
 }
-*/
 
-/*
+
+
 // Override to support conditional rearranging of the table view.
 - (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath
 {
     // Return NO if you do not want the item to be re-orderable.
     return YES;
 }
-*/
+
 
 #pragma mark - Table view delegate
 
@@ -127,6 +128,21 @@
      // Pass the selected object to the new view controller.
      [self.navigationController pushViewController:detailViewController animated:YES];
      */
+}
+
+- (void)setEditing:(BOOL)editing animated:(BOOL)animate
+{
+    if(editing)
+    {
+        NSLog(@"editMode on");
+    }
+    else
+    {
+        NSLog(@"Done leave editmode");
+    }
+    
+    [super setEditing:editing animated:animate];
+    
 }
 
 #pragma mark - Custom methods

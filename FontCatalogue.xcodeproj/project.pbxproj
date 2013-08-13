@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		8F7D1B97751049CFBB74CA01 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0A6A02086B6740AE89B74078 /* libPods.a */; };
+		A997D49D17BA51E000C37F1D /* MenuView.m in Sources */ = {isa = PBXBuildFile; fileRef = A997D49C17BA51E000C37F1D /* MenuView.m */; };
 		A9DA761617B9068800904832 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A9DA761517B9068800904832 /* UIKit.framework */; };
 		A9DA761817B9068800904832 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A9DA761717B9068800904832 /* Foundation.framework */; };
 		A9DA761A17B9068800904832 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A9DA761917B9068800904832 /* CoreGraphics.framework */; };
@@ -23,6 +25,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		0A6A02086B6740AE89B74078 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		A997D49B17BA51E000C37F1D /* MenuView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MenuView.h; sourceTree = "<group>"; };
+		A997D49C17BA51E000C37F1D /* MenuView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MenuView.m; sourceTree = "<group>"; };
 		A9DA761217B9068800904832 /* FontCatalogue.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FontCatalogue.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A9DA761517B9068800904832 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		A9DA761717B9068800904832 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -42,6 +47,7 @@
 		A9DA763817B909CF00904832 /* FontTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FontTableViewController.m; path = ../FontTableViewController.m; sourceTree = "<group>"; };
 		A9DA763A17B90A1F00904832 /* FontCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FontCell.h; sourceTree = "<group>"; };
 		A9DA763B17B90A1F00904832 /* FontCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FontCell.m; sourceTree = "<group>"; };
+		E94322CDA99549E3A685D4DB /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -53,6 +59,7 @@
 				A9DA761817B9068800904832 /* Foundation.framework in Frameworks */,
 				A9DA761A17B9068800904832 /* CoreGraphics.framework in Frameworks */,
 				A9DA761C17B9068800904832 /* CoreData.framework in Frameworks */,
+				8F7D1B97751049CFBB74CA01 /* libPods.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -65,6 +72,7 @@
 				A9DA761D17B9068800904832 /* FontCatalogue */,
 				A9DA761417B9068800904832 /* Frameworks */,
 				A9DA761317B9068800904832 /* Products */,
+				E94322CDA99549E3A685D4DB /* Pods.xcconfig */,
 			);
 			sourceTree = "<group>";
 		};
@@ -83,6 +91,7 @@
 				A9DA761717B9068800904832 /* Foundation.framework */,
 				A9DA761917B9068800904832 /* CoreGraphics.framework */,
 				A9DA761B17B9068800904832 /* CoreData.framework */,
+				0A6A02086B6740AE89B74078 /* libPods.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -96,6 +105,8 @@
 				A9DA763817B909CF00904832 /* FontTableViewController.m */,
 				A9DA763A17B90A1F00904832 /* FontCell.h */,
 				A9DA763B17B90A1F00904832 /* FontCell.m */,
+				A997D49B17BA51E000C37F1D /* MenuView.h */,
+				A997D49C17BA51E000C37F1D /* MenuView.m */,
 				A9DA762F17B9068800904832 /* FontCatalogue.xcdatamodeld */,
 				A9DA761E17B9068800904832 /* Supporting Files */,
 			);
@@ -123,9 +134,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = A9DA763417B9068800904832 /* Build configuration list for PBXNativeTarget "FontCatalogue" */;
 			buildPhases = (
+				378FB7122D3A47CD8A2FDDF0 /* Check Pods Manifest.lock */,
 				A9DA760E17B9068800904832 /* Sources */,
 				A9DA760F17B9068800904832 /* Frameworks */,
 				A9DA761017B9068800904832 /* Resources */,
+				5EF7C35A168B4FE090AB9393 /* Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -176,6 +189,39 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		378FB7122D3A47CD8A2FDDF0 /* Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		5EF7C35A168B4FE090AB9393 /* Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Pods-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		A9DA760E17B9068800904832 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -186,6 +232,7 @@
 				A9DA763117B9068800904832 /* FontCatalogue.xcdatamodeld in Sources */,
 				A9DA763917B909CF00904832 /* FontTableViewController.m in Sources */,
 				A9DA763C17B90A1F00904832 /* FontCell.m in Sources */,
+				A997D49D17BA51E000C37F1D /* MenuView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -261,6 +308,7 @@
 		};
 		A9DA763517B9068800904832 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = E94322CDA99549E3A685D4DB /* Pods.xcconfig */;
 			buildSettings = {
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "FontCatalogue/FontCatalogue-Prefix.pch";
@@ -272,6 +320,7 @@
 		};
 		A9DA763617B9068800904832 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = E94322CDA99549E3A685D4DB /* Pods.xcconfig */;
 			buildSettings = {
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "FontCatalogue/FontCatalogue-Prefix.pch";
@@ -300,6 +349,7 @@
 				A9DA763617B9068800904832 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 

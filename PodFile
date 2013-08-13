@@ -1,0 +1,2 @@
+platform :ios, '6.0'
+pod 'PopoverView', :git => 'https://github.com/cocoa-factory/PopoverView.git'

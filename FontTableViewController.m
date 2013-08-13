@@ -7,8 +7,14 @@
 //
 
 #import "FontTableViewController.h"
+#import "MenuView.h"
+#import "PopoverView.h"
+#import <QuartzCore/QuartzCore.h>
 
-@interface FontTableViewController ()
+@interface FontTableViewController ()<PopoverViewDelegate, MenuViewDelegate> {
+    UIBarButtonItem *menuButton;
+    MenuView *menuView;
+}
 
 @end
 
@@ -27,13 +33,24 @@
 {
     [super viewDidLoad];
     
-    self.fontCatalogue = [NSMutableArray arrayWithArray:[UIFont familyNames]];
+    [self loadCatalogue];
     
     self.navigationItem.title = @"Fonts";
     
-    UIBarButtonItem *menuButton = [[UIBarButtonItem alloc] initWithTitle:@"Menu" style:UIBarButtonItemStylePlain target:self action:@selector(openMenuPopOver:)];
-    self.navigationItem.rightBarButtonItems = [NSArray arrayWithObjects:menuButton,self.editButtonItem, nil];
+    menuButton = [[UIBarButtonItem alloc] initWithTitle:@"Menu" style:UIBarButtonItemStylePlain target:self action:@selector(openMenuPopOver:)];
+    self.navigationItem.rightBarButtonItem = menuButton;
     
+    //Create MenuView
+    menuView = [[MenuView alloc] initWithFrame:CGRectMake(0, 0, 240, 220)];
+    menuView.delegate = self;
+    menuView.backgroundColor = [UIColor colorWithWhite:0.95f alpha:1.f]; //Give it a background color
+    menuView.layer.borderColor = [UIColor colorWithWhite:0.9f alpha:1.f].CGColor; //Add a border
+    menuView.layer.borderWidth = 0.5f; //One retina pixel width
+    menuView.layer.cornerRadius = 4.f;
+    menuView.layer.masksToBounds = YES;
+
+    
+    //[self.navigationItem setLeftBarButtonItem:self.editButtonItem];
     
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
@@ -41,6 +58,23 @@
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
 }
+
+- (void)setEditing:(BOOL)editing animated:(BOOL)animate
+{
+    if(editing)
+    {
+        DLog(@"editMode on");
+    }
+    else
+    {
+        DLog(@"Done leave editmode");
+        self.navigationItem.rightBarButtonItem = menuButton;
+    }
+    
+    [super setEditing:editing animated:animate];
+    
+}
+
 
 - (void)didReceiveMemoryWarning
 {
@@ -74,6 +108,8 @@
     // Configure the cell...
     cell.textLabel.text = [self.fontCatalogue objectAtIndex:indexPath.row];
     NSLog(@"text: %@", cell.textLabel.text);
+    
+    cell.textLabel.textAlignment = textAlignment;
     
     return cell;
 }
@@ -130,26 +166,63 @@
      */
 }
 
-- (void)setEditing:(BOOL)editing animated:(BOOL)animate
-{
-    if(editing)
-    {
-        NSLog(@"editMode on");
-    }
-    else
-    {
-        NSLog(@"Done leave editmode");
-    }
-    
-    [super setEditing:editing animated:animate];
-    
-}
 
 #pragma mark - Custom methods
 - (void)openMenuPopOver:(id)sender {
-    NSSortDescriptor * sortDesc = [[NSSortDescriptor alloc] initWithKey:@"self" ascending:YES];
-    [self.fontCatalogue sortUsingDescriptors:[NSArray arrayWithObject:sortDesc]];
+//    NSSortDescriptor * sortDesc = [[NSSortDescriptor alloc] initWithKey:@"self" ascending:YES];
+//    [self.fontCatalogue sortUsingDescriptors:[NSArray arrayWithObject:sortDesc]];
+//    [self.tableView reloadData];
+    
+
+    pv = [PopoverView showPopoverAtPoint:CGPointMake(300, 0)
+                                  inView:self.view
+                         withContentView:menuView 
+                                delegate:self]; // Show calendar with no title
+
+    
+}
+
+- (void)loadCatalogue{
+    self.fontCatalogue = [NSMutableArray arrayWithArray:[UIFont familyNames]];
+    textAlignment = NSTextAlignmentLeft;
     [self.tableView reloadData];
 }
+
+#pragma mark - MenuViewDelegate methods
+
+- (void)menuViewEditBtnPressed:(MenuView *)menuView {
+    [super setEditing:YES animated:YES];
+    [pv dismiss];
+    self.navigationItem.rightBarButtonItem = self.editButtonItem;
+}
+
+- (void)menuViewRevertBtnPressed:(MenuView*)menuView{
+    [self loadCatalogue];
+    [pv dismiss];
+}
+
+- (void)menuViewAlignBtnPressed:(MenuView*)aMenuView{
+    DLog(@"Alignment Option: %d", aMenuView.alignmentOption);
+    if (aMenuView.alignmentOption == kAlignmentOptionLeft) {
+        textAlignment = NSTextAlignmentLeft;
+    } else if(aMenuView.alignmentOption == kAlignmentOptionRight){
+        textAlignment = NSTextAlignmentRight;
+    }
+    [self.tableView reloadData];
+    [pv dismiss];
+}
+
+- (void)menuViewBackwardsBtnPressed:(MenuView*)menuView{
+    
+}
+
+- (void)menuViewSortBtnPressed:(MenuView*)menuView{
+    
+}
+
+- (void)menuViewReverseSortBtnPressed:(MenuView*)menuView{
+    
+}
+
 
 @end

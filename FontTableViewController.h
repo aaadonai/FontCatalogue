@@ -8,7 +8,14 @@
 
 #import <UIKit/UIKit.h>
 
-@interface FontTableViewController : UITableViewController
+@class PopoverView;
+@protocol PopoverViewDelegate;
+
+@interface FontTableViewController : UITableViewController  {
+    PopoverView *pv;
+    int textAlignment;
+    
+}
 
 
 @property (nonatomic,retain) NSMutableArray* fontCatalogue;

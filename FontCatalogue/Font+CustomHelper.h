@@ -1,5 +1,5 @@
 //
-//  Font.m
+//  Font+CustomHelper.h
 //  FontCatalogue
 //
 //  Created by Antonio Rodrigues on 18/08/13.
@@ -8,12 +8,11 @@
 
 #import "Font.h"
 
+@interface Font (CustomHelper)
 
-@implementation Font
-
-@dynamic name;
-@dynamic order;
-@dynamic rating;
-@dynamic frequency;
+- (id)initWithName:(NSString*)name;
+- (NSString*)backwards;
+- (int)displaySize;
+- (int)characterCount;
 
 @end

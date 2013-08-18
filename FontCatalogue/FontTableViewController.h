@@ -9,7 +9,6 @@
 #import <UIKit/UIKit.h>
 
 @class PopoverView;
-@protocol PopoverViewDelegate;
 
 @interface FontTableViewController : UITableViewController  {
     PopoverView *pv;

@@ -7,6 +7,7 @@
 //
 
 #import "MenuView.h"
+#import "MenuOptionsManager.h"
 
 @implementation MenuView
 
@@ -20,7 +21,6 @@
         UIButton *revertButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
         revertButton.frame = CGRectMake(10,5,60,25);
         
-        DLog(@"button frame: %@", NSStringFromCGRect(revertButton.frame) );
         [revertButton setTitle:@"Revert" forState:UIControlStateNormal];
         [revertButton addTarget:self action:@selector(revert:) forControlEvents:UIControlEventTouchUpInside];
         [self addSubview:revertButton];
@@ -29,7 +29,6 @@
         UIButton *editButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
         editButton.frame = CGRectMake(80,5,60,25);
         
-        DLog(@"button frame: %@", NSStringFromCGRect(editButton.frame) );
         [editButton setTitle:@"Edit" forState:UIControlStateNormal];
         [editButton addTarget:self action:@selector(edit:) forControlEvents:UIControlEventTouchUpInside];
         [self addSubview:editButton];
@@ -88,61 +87,57 @@
         [self.reverseSort addTarget: self action: @selector(reverse:) forControlEvents:UIControlEventValueChanged];
         [self addSubview: self.reverseSort];
 
-
+        //will load options saved on plist file
+        [self loadMenuOptions];
     }
     return self;
 }
 
-/*
-// Only override drawRect: if you perform custom drawing.
-// An empty implementation adversely affects performance during animation.
-- (void)drawRect:(CGRect)rect
-{
-    // Drawing code
-}
-*/
 
 #pragma mark - Custom methods
 
+- (void)loadMenuOptions{
+    MenuOptionsManager* manager = [MenuOptionsManager sharedManager];
+    [manager readDocument];
+    self.alignmentSegmentedControl.selectedSegmentIndex = manager.alignment;
+    self.backwards.on = manager.backwards;
+    self.sortSegmentedControl.selectedSegmentIndex = manager.sort;
+    self.reverseSort.on = manager.reverse;
+}
+
+
 - (void)revert:(id)sender{
-    DLog(@"revert pressed!");
     [self.delegate menuViewRevertBtnPressed:self];
 }
 
 - (void)edit:(id)sender{
-    DLog(@"edit pressed!");
     [self.delegate menuViewEditBtnPressed:self];
 }
 
 - (void)align:(id)sender{
-    DLog(@"align pressed!");
-//    UISegmentedControl *aSegmentedControl = (UISegmentedControl *)sender;
-//    self.alignment = [aSegmentedControl selectedSegmentIndex];
+    [[MenuOptionsManager sharedManager]setAlignment:self.alignmentSegmentedControl.selectedSegmentIndex];
+    [[MenuOptionsManager sharedManager]writeDocument];
     [self.delegate menuViewAlignBtnPressed:self];
 }
 
 - (void)backwards:(id)sender{
-    DLog(@"backwards pressed!");
-//    UISwitch *aBackwards = (UISwitch*)sender;
-//    self.backwardsSwitch = aBackwards.on;
+    [(MenuOptionsManager*)[MenuOptionsManager sharedManager]setBackwards:self.backwards.on];
+    [[MenuOptionsManager sharedManager]writeDocument];
     [self.delegate menuViewBackwardsBtnPressed:self];
 }
 
 - (void)sort:(id)sender{
-    DLog(@"sort pressed!");
-//    UISegmentedControl *aSegmentedControl = (UISegmentedControl *)sender;
-//    self.sortOption = [aSegmentedControl selectedSegmentIndex];
+    [[MenuOptionsManager sharedManager]setSort:self.sortSegmentedControl.selectedSegmentIndex];
+    [[MenuOptionsManager sharedManager]writeDocument];
     [self.delegate menuViewSortBtnPressed:self];
 }
 
 - (void)reverse:(id)sender{
-    DLog(@"reverse pressed!");
-//    UISwitch *reverse = (UISwitch*)sender;
-//    self.reverseSortSwitch = reverse.on;
     if (self.sortSegmentedControl.selectedSegmentIndex == -1){
         self.sortSegmentedControl.selectedSegmentIndex = 0;
-        
     }
+    [[MenuOptionsManager sharedManager]setReverse:self.reverseSort.on];
+    [[MenuOptionsManager sharedManager]writeDocument];
     [self.delegate menuViewSortBtnPressed:self];
 }
 
@@ -151,6 +146,11 @@
     self.backwards.on = NO;
     self.sortSegmentedControl.selectedSegmentIndex = -1;
     self.reverseSort.on = NO;
+    [[MenuOptionsManager sharedManager]setAlignment:self.alignmentSegmentedControl.selectedSegmentIndex];
+    [(MenuOptionsManager*)[MenuOptionsManager sharedManager]setBackwards:self.backwards.on];
+    [[MenuOptionsManager sharedManager]setSort:self.sortSegmentedControl.selectedSegmentIndex];
+    [[MenuOptionsManager sharedManager]setReverse:self.reverseSort.on];
+    [[MenuOptionsManager sharedManager]writeDocument];
  }
 
 

@@ -2,22 +2,19 @@
 //  Font.h
 //  FontCatalogue
 //
-//  Created by Antonio Rodrigues on 15/08/13.
+//  Created by Antonio Rodrigues on 18/08/13.
 //  Copyright (c) 2013 Antonio Rodrigues. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
-
-@interface Font : NSObject
-
-@property (nonatomic, retain) NSString *name;
-@property (nonatomic, assign) int characterCount;
-@property (nonatomic, assign) int displaySize;
+#import <CoreData/CoreData.h>
 
 
-- (id)initWithName:(NSString*)name;
-- (NSString*)backwards;
-- (int)displaySize;
-- (int)characterCount;
+@interface Font : NSManagedObject
+
+@property (nonatomic, retain) NSString * name;
+@property (nonatomic, retain) NSNumber * order;
+@property (nonatomic, retain) NSNumber * rating;
+@property (nonatomic, retain) NSNumber * frequency;
 
 @end

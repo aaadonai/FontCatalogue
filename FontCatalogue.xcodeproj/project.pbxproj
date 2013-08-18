@@ -9,7 +9,14 @@
 /* Begin PBXBuildFile section */
 		8F7D1B97751049CFBB74CA01 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0A6A02086B6740AE89B74078 /* libPods.a */; };
 		A997D49D17BA51E000C37F1D /* MenuView.m in Sources */ = {isa = PBXBuildFile; fileRef = A997D49C17BA51E000C37F1D /* MenuView.m */; };
-		A99FC2E417BCF220008FEEED /* Font.m in Sources */ = {isa = PBXBuildFile; fileRef = A99FC2E317BCF220008FEEED /* Font.m */; };
+		A9AAF5DD17C07E7300610E56 /* Font.m in Sources */ = {isa = PBXBuildFile; fileRef = A9AAF5DC17C07E7300610E56 /* Font.m */; };
+		A9AAF5E017C07F0400610E56 /* Font+CustomHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = A9AAF5DF17C07F0400610E56 /* Font+CustomHelper.m */; };
+		A9AAF5E317C0804800610E56 /* FontTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A9AAF5E217C0804800610E56 /* FontTableViewController.m */; };
+		A9AAF5E717C0811C00610E56 /* CoreDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = A9AAF5E617C0811C00610E56 /* CoreDataManager.m */; };
+		A9AAF5E917C0E0A300610E56 /* MenuOptions.plist in Resources */ = {isa = PBXBuildFile; fileRef = A9AAF5E817C0E0A300610E56 /* MenuOptions.plist */; };
+		A9AAF5EC17C0E1E500610E56 /* MenuOptionsManager.m in Sources */ = {isa = PBXBuildFile; fileRef = A9AAF5EB17C0E1E500610E56 /* MenuOptionsManager.m */; };
+		A9AAF5EF17C0FEAC00610E56 /* FontViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A9AAF5EE17C0FEAC00610E56 /* FontViewController.m */; };
+		A9AAF5F217C0FED200610E56 /* FontView.m in Sources */ = {isa = PBXBuildFile; fileRef = A9AAF5F117C0FED200610E56 /* FontView.m */; };
 		A9DA761617B9068800904832 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A9DA761517B9068800904832 /* UIKit.framework */; };
 		A9DA761817B9068800904832 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A9DA761717B9068800904832 /* Foundation.framework */; };
 		A9DA761A17B9068800904832 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A9DA761917B9068800904832 /* CoreGraphics.framework */; };
@@ -21,16 +28,27 @@
 		A9DA762C17B9068800904832 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A9DA762B17B9068800904832 /* Default@2x.png */; };
 		A9DA762E17B9068800904832 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A9DA762D17B9068800904832 /* Default-568h@2x.png */; };
 		A9DA763117B9068800904832 /* FontCatalogue.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = A9DA762F17B9068800904832 /* FontCatalogue.xcdatamodeld */; };
-		A9DA763917B909CF00904832 /* FontTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A9DA763817B909CF00904832 /* FontTableViewController.m */; };
-		A9DA763C17B90A1F00904832 /* FontCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A9DA763B17B90A1F00904832 /* FontCell.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		0A6A02086B6740AE89B74078 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		A997D49B17BA51E000C37F1D /* MenuView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MenuView.h; sourceTree = "<group>"; };
 		A997D49C17BA51E000C37F1D /* MenuView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MenuView.m; sourceTree = "<group>"; };
-		A99FC2E217BCF220008FEEED /* Font.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Font.h; sourceTree = "<group>"; };
-		A99FC2E317BCF220008FEEED /* Font.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Font.m; sourceTree = "<group>"; };
+		A9AAF5DB17C07E7300610E56 /* Font.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Font.h; sourceTree = "<group>"; };
+		A9AAF5DC17C07E7300610E56 /* Font.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Font.m; sourceTree = "<group>"; };
+		A9AAF5DE17C07F0400610E56 /* Font+CustomHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Font+CustomHelper.h"; sourceTree = "<group>"; };
+		A9AAF5DF17C07F0400610E56 /* Font+CustomHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "Font+CustomHelper.m"; sourceTree = "<group>"; };
+		A9AAF5E117C0804700610E56 /* FontTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FontTableViewController.h; sourceTree = "<group>"; };
+		A9AAF5E217C0804800610E56 /* FontTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FontTableViewController.m; sourceTree = "<group>"; };
+		A9AAF5E517C0811C00610E56 /* CoreDataManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CoreDataManager.h; sourceTree = "<group>"; };
+		A9AAF5E617C0811C00610E56 /* CoreDataManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CoreDataManager.m; sourceTree = "<group>"; };
+		A9AAF5E817C0E0A300610E56 /* MenuOptions.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = MenuOptions.plist; sourceTree = "<group>"; };
+		A9AAF5EA17C0E1E500610E56 /* MenuOptionsManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MenuOptionsManager.h; sourceTree = "<group>"; };
+		A9AAF5EB17C0E1E500610E56 /* MenuOptionsManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MenuOptionsManager.m; sourceTree = "<group>"; };
+		A9AAF5ED17C0FEAC00610E56 /* FontViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FontViewController.h; sourceTree = "<group>"; };
+		A9AAF5EE17C0FEAC00610E56 /* FontViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FontViewController.m; sourceTree = "<group>"; };
+		A9AAF5F017C0FED100610E56 /* FontView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FontView.h; sourceTree = "<group>"; };
+		A9AAF5F117C0FED200610E56 /* FontView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FontView.m; sourceTree = "<group>"; };
 		A9DA761217B9068800904832 /* FontCatalogue.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FontCatalogue.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A9DA761517B9068800904832 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		A9DA761717B9068800904832 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -46,10 +64,6 @@
 		A9DA762B17B9068800904832 /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
 		A9DA762D17B9068800904832 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		A9DA763017B9068800904832 /* FontCatalogue.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = FontCatalogue.xcdatamodel; sourceTree = "<group>"; };
-		A9DA763717B909CF00904832 /* FontTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FontTableViewController.h; path = ../FontTableViewController.h; sourceTree = "<group>"; };
-		A9DA763817B909CF00904832 /* FontTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FontTableViewController.m; path = ../FontTableViewController.m; sourceTree = "<group>"; };
-		A9DA763A17B90A1F00904832 /* FontCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FontCell.h; sourceTree = "<group>"; };
-		A9DA763B17B90A1F00904832 /* FontCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FontCell.m; sourceTree = "<group>"; };
 		E94322CDA99549E3A685D4DB /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
@@ -69,6 +83,51 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		A9AAF5F317C0FEDD00610E56 /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				A9AAF5E117C0804700610E56 /* FontTableViewController.h */,
+				A9AAF5E217C0804800610E56 /* FontTableViewController.m */,
+				A9AAF5ED17C0FEAC00610E56 /* FontViewController.h */,
+				A9AAF5EE17C0FEAC00610E56 /* FontViewController.m */,
+			);
+			name = Controllers;
+			sourceTree = "<group>";
+		};
+		A9AAF5F417C0FEE700610E56 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				A997D49B17BA51E000C37F1D /* MenuView.h */,
+				A997D49C17BA51E000C37F1D /* MenuView.m */,
+				A9AAF5F017C0FED100610E56 /* FontView.h */,
+				A9AAF5F117C0FED200610E56 /* FontView.m */,
+			);
+			name = Views;
+			sourceTree = "<group>";
+		};
+		A9AAF5F517C0FEF400610E56 /* CoreData */ = {
+			isa = PBXGroup;
+			children = (
+				A9AAF5DB17C07E7300610E56 /* Font.h */,
+				A9AAF5DC17C07E7300610E56 /* Font.m */,
+				A9AAF5DE17C07F0400610E56 /* Font+CustomHelper.h */,
+				A9AAF5DF17C07F0400610E56 /* Font+CustomHelper.m */,
+				A9AAF5E517C0811C00610E56 /* CoreDataManager.h */,
+				A9AAF5E617C0811C00610E56 /* CoreDataManager.m */,
+				A9DA762F17B9068800904832 /* FontCatalogue.xcdatamodeld */,
+			);
+			name = CoreData;
+			sourceTree = "<group>";
+		};
+		A9AAF5F617C0FF6C00610E56 /* Helper */ = {
+			isa = PBXGroup;
+			children = (
+				A9AAF5EA17C0E1E500610E56 /* MenuOptionsManager.h */,
+				A9AAF5EB17C0E1E500610E56 /* MenuOptionsManager.m */,
+			);
+			name = Helper;
+			sourceTree = "<group>";
+		};
 		A9DA760917B9068700904832 = {
 			isa = PBXGroup;
 			children = (
@@ -104,15 +163,10 @@
 			children = (
 				A9DA762617B9068800904832 /* AppDelegate.h */,
 				A9DA762717B9068800904832 /* AppDelegate.m */,
-				A9DA763717B909CF00904832 /* FontTableViewController.h */,
-				A9DA763817B909CF00904832 /* FontTableViewController.m */,
-				A9DA763A17B90A1F00904832 /* FontCell.h */,
-				A9DA763B17B90A1F00904832 /* FontCell.m */,
-				A997D49B17BA51E000C37F1D /* MenuView.h */,
-				A997D49C17BA51E000C37F1D /* MenuView.m */,
-				A99FC2E217BCF220008FEEED /* Font.h */,
-				A99FC2E317BCF220008FEEED /* Font.m */,
-				A9DA762F17B9068800904832 /* FontCatalogue.xcdatamodeld */,
+				A9AAF5F617C0FF6C00610E56 /* Helper */,
+				A9AAF5F517C0FEF400610E56 /* CoreData */,
+				A9AAF5F417C0FEE700610E56 /* Views */,
+				A9AAF5F317C0FEDD00610E56 /* Controllers */,
 				A9DA761E17B9068800904832 /* Supporting Files */,
 			);
 			path = FontCatalogue;
@@ -128,6 +182,7 @@
 				A9DA762917B9068800904832 /* Default.png */,
 				A9DA762B17B9068800904832 /* Default@2x.png */,
 				A9DA762D17B9068800904832 /* Default-568h@2x.png */,
+				A9AAF5E817C0E0A300610E56 /* MenuOptions.plist */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -189,6 +244,7 @@
 				A9DA762A17B9068800904832 /* Default.png in Resources */,
 				A9DA762C17B9068800904832 /* Default@2x.png in Resources */,
 				A9DA762E17B9068800904832 /* Default-568h@2x.png in Resources */,
+				A9AAF5E917C0E0A300610E56 /* MenuOptions.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -235,10 +291,14 @@
 				A9DA762417B9068800904832 /* main.m in Sources */,
 				A9DA762817B9068800904832 /* AppDelegate.m in Sources */,
 				A9DA763117B9068800904832 /* FontCatalogue.xcdatamodeld in Sources */,
-				A9DA763917B909CF00904832 /* FontTableViewController.m in Sources */,
-				A9DA763C17B90A1F00904832 /* FontCell.m in Sources */,
 				A997D49D17BA51E000C37F1D /* MenuView.m in Sources */,
-				A99FC2E417BCF220008FEEED /* Font.m in Sources */,
+				A9AAF5DD17C07E7300610E56 /* Font.m in Sources */,
+				A9AAF5E017C07F0400610E56 /* Font+CustomHelper.m in Sources */,
+				A9AAF5E317C0804800610E56 /* FontTableViewController.m in Sources */,
+				A9AAF5E717C0811C00610E56 /* CoreDataManager.m in Sources */,
+				A9AAF5EC17C0E1E500610E56 /* MenuOptionsManager.m in Sources */,
+				A9AAF5EF17C0FEAC00610E56 /* FontViewController.m in Sources */,
+				A9AAF5F217C0FED200610E56 /* FontView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

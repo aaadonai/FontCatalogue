@@ -9,8 +9,11 @@
 #import "FontTableViewController.h"
 #import "MenuView.h"
 #import "PopoverView.h"
-#import "Font.h"
+#import "Font+CustomHelper.h"
 #import <QuartzCore/QuartzCore.h>
+#import "CoreDataManager.h"
+#import "MenuOptionsManager.h"
+#import "FontViewController.h"
 
 @interface FontTableViewController ()<PopoverViewDelegate, MenuViewDelegate> {
     UIBarButtonItem *menuButton;
@@ -34,7 +37,7 @@
 {
     [super viewDidLoad];
     
-    [self loadCatalogue];
+    [self loadCatalogueFromCoreData];
     
     self.navigationItem.title = @"Fonts";
     
@@ -49,33 +52,20 @@
     menuView.layer.borderWidth = 0.5f; //One retina pixel width
     menuView.layer.cornerRadius = 4.f;
     menuView.layer.masksToBounds = YES;
+    
+    [self applyMenuOptions];
 
-    
-    //[self.navigationItem setLeftBarButtonItem:self.editButtonItem];
-    
-    // Uncomment the following line to preserve selection between presentations.
-    // self.clearsSelectionOnViewWillAppear = NO;
- 
-    // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-    // self.navigationItem.rightBarButtonItem = self.editButtonItem;
 }
 
 - (void)setEditing:(BOOL)editing animated:(BOOL)animate
 {
-    if(editing)
-    {
-        DLog(@"editMode on");
-    }
-    else
-    {
-        DLog(@"Done leave editmode");
+    if(!editing){
         self.navigationItem.rightBarButtonItem = menuButton;
     }
     
     [super setEditing:editing animated:animate];
     
 }
-
 
 - (void)didReceiveMemoryWarning
 {
@@ -93,7 +83,6 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    DLog(@"Count: %d", [self.fontCatalogue count]);
     // Return the number of rows in the section.
     return [self.fontCatalogue count];
 }
@@ -136,9 +125,8 @@
         // Update array
         Font* font = [self.fontCatalogue objectAtIndex:indexPath.row];
         [self.fontCatalogue removeObject:font];
-
+        [[CoreDataManager sharedManager]saveContext];
         // Delete the row from the data source
-        //[self.tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
         [self.tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
         
     }   
@@ -150,12 +138,16 @@
 // Override to support rearranging the table view.
 - (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath
 {
-    DLog(@"Row moved");
     //exchange object
     [self.fontCatalogue exchangeObjectAtIndex:fromIndexPath.row withObjectAtIndex:toIndexPath.row];
     // unset any sorting options
     menuView.sortSegmentedControl.selectedSegmentIndex = -1;
     menuView.reverseSort.on = NO;
+    [[MenuOptionsManager sharedManager]setSort:menuView.sortSegmentedControl.selectedSegmentIndex];
+    [[MenuOptionsManager sharedManager]setReverse:menuView.reverseSort.on];
+    [[MenuOptionsManager sharedManager]writeDocument];//save changes
+    //reorder
+    [self reorderFontCatalogue];
 }
 
 
@@ -172,45 +164,101 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    // Navigation logic may go here. Create and push another view controller.
-    /*
-     <#DetailViewController#> *detailViewController = [[<#DetailViewController#> alloc] initWithNibName:@"<#Nib name#>" bundle:nil];
-     // ...
-     // Pass the selected object to the new view controller.
-     [self.navigationController pushViewController:detailViewController animated:YES];
-     */
+    //save frequency to core data
+    Font* font = self.fontCatalogue[indexPath.item];
+    int i = [font.frequency intValue];
+    font.frequency = [NSNumber numberWithInt:i+1];
+    [[CoreDataManager sharedManager]saveContext];
+    //pushing font view controller to screen
+    FontViewController* fontViewController = [[FontViewController alloc] initWithFont:font];
+    [self.navigationController pushViewController:fontViewController animated:YES];
 }
 
 
 #pragma mark - Custom methods
 - (void)openMenuPopOver:(id)sender {
-//    NSSortDescriptor * sortDesc = [[NSSortDescriptor alloc] initWithKey:@"self" ascending:YES];
-//    [self.fontCatalogue sortUsingDescriptors:[NSArray arrayWithObject:sortDesc]];
-//    [self.tableView reloadData];
     
-
-    DLog(@"X: %f",self.view.bounds.size.width - 20);
-    DLog(@"Y: %f", self.view.bounds.origin.y);
-    
-    pv = [PopoverView showPopoverAtPoint:CGPointMake(self.view.bounds.size.width - 20, self.view.bounds.origin.y)
+    pv = [PopoverView showPopoverAtPoint:CGPointMake(self.view.bounds.size.width - 20,
+                                                     self.view.bounds.origin.y)
                                   inView:self.view
                          withContentView:menuView 
-                                delegate:self]; // Show calendar with no title
-
+                                delegate:self]; 
     
 }
 
+- (NSArray*)fetchCatalogueFromCoreData{
+    //fetches fonts from core data and order it by order
+    NSFetchRequest* fetchRequest = [[NSFetchRequest alloc] init];
+	NSEntityDescription* entity = [NSEntityDescription entityForName:@"Font" inManagedObjectContext:[[CoreDataManager sharedManager]managedObjectContext] ];
+	[fetchRequest setEntity:entity];
+    NSSortDescriptor *sort = [[NSSortDescriptor alloc]
+                              initWithKey:@"order" ascending:YES];
+    [fetchRequest setSortDescriptors:[NSArray arrayWithObject:sort]];
+	
+	NSError* error;
+	return [[[CoreDataManager sharedManager]managedObjectContext] executeFetchRequest:fetchRequest error:&error];
+	
+
+}
+
+- (void)loadCatalogueFromCoreData{
+    //load in all the fonts from core data
+	NSArray* fetchedObjects = [self fetchCatalogueFromCoreData];
+	self.fontCatalogue = [NSMutableArray arrayWithCapacity:[UIFont familyNames].count];
+	//iterate through fetched objects and add to array
+	for (Font* font in fetchedObjects) {
+        [self.fontCatalogue addObject:font];
+    }
+    
+    if (self.fontCatalogue.count <= 0){
+        //if no data in core data load from UIFont
+        [self loadCatalogue];
+    }
+
+}
+
 - (void)loadCatalogue{
+    //if not in core data probably is the first time it's been used
     self.fontCatalogue = [NSMutableArray arrayWithCapacity:[UIFont familyNames].count];
     for (NSString* fontName in [UIFont familyNames]) {
         Font* font = [[Font alloc]initWithName:fontName];
         [self.fontCatalogue addObject:font];
     }
+    [[CoreDataManager sharedManager]saveContext];
     textAlignment = NSTextAlignmentLeft;
     backwards = NO;
     [menuView reset];
     [self.tableView reloadData];
 }
+
+- (void) cleanCatalogueFromCoreData{
+    //deletes all the fonts from core data
+    NSArray* fetchedObjects = [self fetchCatalogueFromCoreData];
+    for (Font* font in fetchedObjects) {
+        [[[CoreDataManager sharedManager]managedObjectContext] deleteObject:font];
+    }
+    
+}
+
+- (void)reorderFontCatalogue {
+    //reorder the fonts and saves to core data
+    int order = 0;
+    for (Font* font in self.fontCatalogue) {
+        font.order = [NSNumber numberWithInt:order++];
+    }
+    [[CoreDataManager sharedManager]saveContext];
+
+}
+
+- (void)applyMenuOptions{
+    if([[MenuOptionsManager sharedManager]alignment] == 0){
+        textAlignment = NSTextAlignmentLeft;
+    } else {
+        textAlignment = NSTextAlignmentRight;
+    }
+    backwards = [(MenuOptionsManager*)[MenuOptionsManager sharedManager]backwards];
+}
+
 
 #pragma mark - MenuViewDelegate methods
 
@@ -221,19 +269,17 @@
 }
 
 - (void)menuViewRevertBtnPressed:(MenuView*)aMenuView{
-    [self loadCatalogue];
-    //[pv dismiss];
+    [self cleanCatalogueFromCoreData];
+    [self loadCatalogue];//will load fonts from UIFont
 }
 
 - (void)menuViewAlignBtnPressed:(MenuView*)aMenuView{
-    DLog(@"Alignment Option: %d", aMenuView.alignmentSegmentedControl.selectedSegmentIndex);
     if (aMenuView.alignmentSegmentedControl.selectedSegmentIndex == kAlignmentOptionLeft) {
         textAlignment = NSTextAlignmentLeft;
     } else if(aMenuView.alignmentSegmentedControl.selectedSegmentIndex == kAlignmentOptionRight){
         textAlignment = NSTextAlignmentRight;
     }
     [self.tableView reloadData];
-    //[pv dismiss];
 }
 
 - (void)menuViewBackwardsBtnPressed:(MenuView*)aMenuView{
@@ -243,7 +289,6 @@
         [self menuViewSortBtnPressed:aMenuView];
     }
     [self.tableView reloadData];
-    //[pv dismiss];
 }
 
 - (void)menuViewSortBtnPressed:(MenuView*)aMenuView{
@@ -262,8 +307,8 @@
             break;
     }
     [self.fontCatalogue sortUsingDescriptors:[NSArray arrayWithObject:sort]];
+    [self reorderFontCatalogue];//also saves context
     [self.tableView reloadData];
-    //[pv dismiss];
 }
 
 @end

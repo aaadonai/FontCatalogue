@@ -14,6 +14,7 @@
 @interface FontTableViewController : UITableViewController  {
     PopoverView *pv;
     int textAlignment;
+    BOOL backwards;
     
 }
 

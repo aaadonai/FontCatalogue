@@ -16,10 +16,13 @@
 @interface MenuView : UIView
 
 @property (nonatomic, assign) id<MenuViewDelegate>delegate;
-@property (nonatomic, assign) int alignmentOption;
-@property (nonatomic, assign) BOOL backwardsSwitch;
-@property (nonatomic, assign) int sortOption;
-@property (nonatomic, assign) BOOL reverseSortSwitch;
+
+@property (nonatomic, retain) UISegmentedControl *alignmentSegmentedControl;
+@property (nonatomic, retain) UISwitch *backwards;
+@property (nonatomic, retain) UISegmentedControl *sortSegmentedControl;
+@property (nonatomic, retain) UISwitch *reverseSort;
+
+- (void)reset;
 
 @end
 
@@ -30,7 +33,6 @@
 - (void)menuViewAlignBtnPressed:(MenuView*)menuView;
 - (void)menuViewBackwardsBtnPressed:(MenuView*)menuView;
 - (void)menuViewSortBtnPressed:(MenuView*)menuView;
-- (void)menuViewReverseSortBtnPressed:(MenuView*)menuView;
 
 @end
 

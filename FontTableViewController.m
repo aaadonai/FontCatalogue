@@ -9,6 +9,7 @@
 #import "FontTableViewController.h"
 #import "MenuView.h"
 #import "PopoverView.h"
+#import "Font.h"
 #import <QuartzCore/QuartzCore.h>
 
 @interface FontTableViewController ()<PopoverViewDelegate, MenuViewDelegate> {
@@ -92,7 +93,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    NSLog(@"Count: %d", [self.fontCatalogue count]);
+    DLog(@"Count: %d", [self.fontCatalogue count]);
     // Return the number of rows in the section.
     return [self.fontCatalogue count];
 }
@@ -106,8 +107,12 @@
                                       reuseIdentifier:CellIdentifier];
     }
     // Configure the cell...
-    cell.textLabel.text = [self.fontCatalogue objectAtIndex:indexPath.row];
-    NSLog(@"text: %@", cell.textLabel.text);
+    Font* font = [self.fontCatalogue objectAtIndex:indexPath.row];
+    if (backwards){
+        cell.textLabel.text = font.backwards;
+    } else {
+        cell.textLabel.text = font.name;
+    }
     
     cell.textLabel.textAlignment = textAlignment;
     
@@ -128,12 +133,16 @@
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (editingStyle == UITableViewCellEditingStyleDelete) {
+        // Update array
+        Font* font = [self.fontCatalogue objectAtIndex:indexPath.row];
+        [self.fontCatalogue removeObject:font];
+
         // Delete the row from the data source
-        [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
+        //[self.tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
+        [self.tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
+        
     }   
-    else if (editingStyle == UITableViewCellEditingStyleInsert) {
-        // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-    }   
+      
 }
 
 
@@ -141,6 +150,12 @@
 // Override to support rearranging the table view.
 - (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath
 {
+    DLog(@"Row moved");
+    //exchange object
+    [self.fontCatalogue exchangeObjectAtIndex:fromIndexPath.row withObjectAtIndex:toIndexPath.row];
+    // unset any sorting options
+    menuView.sortSegmentedControl.selectedSegmentIndex = -1;
+    menuView.reverseSort.on = NO;
 }
 
 
@@ -174,7 +189,10 @@
 //    [self.tableView reloadData];
     
 
-    pv = [PopoverView showPopoverAtPoint:CGPointMake(300, 0)
+    DLog(@"X: %f",self.view.bounds.size.width - 20);
+    DLog(@"Y: %f", self.view.bounds.origin.y);
+    
+    pv = [PopoverView showPopoverAtPoint:CGPointMake(self.view.bounds.size.width - 20, self.view.bounds.origin.y)
                                   inView:self.view
                          withContentView:menuView 
                                 delegate:self]; // Show calendar with no title
@@ -183,46 +201,69 @@
 }
 
 - (void)loadCatalogue{
-    self.fontCatalogue = [NSMutableArray arrayWithArray:[UIFont familyNames]];
+    self.fontCatalogue = [NSMutableArray arrayWithCapacity:[UIFont familyNames].count];
+    for (NSString* fontName in [UIFont familyNames]) {
+        Font* font = [[Font alloc]initWithName:fontName];
+        [self.fontCatalogue addObject:font];
+    }
     textAlignment = NSTextAlignmentLeft;
+    backwards = NO;
+    [menuView reset];
     [self.tableView reloadData];
 }
 
 #pragma mark - MenuViewDelegate methods
 
-- (void)menuViewEditBtnPressed:(MenuView *)menuView {
-    [super setEditing:YES animated:YES];
+- (void)menuViewEditBtnPressed:(MenuView *)aMenuView {
+    [self setEditing:YES animated:YES];
     [pv dismiss];
     self.navigationItem.rightBarButtonItem = self.editButtonItem;
 }
 
-- (void)menuViewRevertBtnPressed:(MenuView*)menuView{
+- (void)menuViewRevertBtnPressed:(MenuView*)aMenuView{
     [self loadCatalogue];
-    [pv dismiss];
+    //[pv dismiss];
 }
 
 - (void)menuViewAlignBtnPressed:(MenuView*)aMenuView{
-    DLog(@"Alignment Option: %d", aMenuView.alignmentOption);
-    if (aMenuView.alignmentOption == kAlignmentOptionLeft) {
+    DLog(@"Alignment Option: %d", aMenuView.alignmentSegmentedControl.selectedSegmentIndex);
+    if (aMenuView.alignmentSegmentedControl.selectedSegmentIndex == kAlignmentOptionLeft) {
         textAlignment = NSTextAlignmentLeft;
-    } else if(aMenuView.alignmentOption == kAlignmentOptionRight){
+    } else if(aMenuView.alignmentSegmentedControl.selectedSegmentIndex == kAlignmentOptionRight){
         textAlignment = NSTextAlignmentRight;
     }
     [self.tableView reloadData];
-    [pv dismiss];
+    //[pv dismiss];
 }
 
-- (void)menuViewBackwardsBtnPressed:(MenuView*)menuView{
-    
+- (void)menuViewBackwardsBtnPressed:(MenuView*)aMenuView{
+    backwards = aMenuView.backwards.on;
+    //backwards will influence alpha sorting too
+    if (aMenuView.sortSegmentedControl.selectedSegmentIndex == 0) {
+        [self menuViewSortBtnPressed:aMenuView];
+    }
+    [self.tableView reloadData];
+    //[pv dismiss];
 }
 
-- (void)menuViewSortBtnPressed:(MenuView*)menuView{
-    
+- (void)menuViewSortBtnPressed:(MenuView*)aMenuView{
+    NSSortDescriptor *sort;
+    switch (aMenuView.sortSegmentedControl.selectedSegmentIndex) {
+        case 0:
+            sort = [NSSortDescriptor sortDescriptorWithKey:@"name" ascending:!aMenuView.reverseSort.on];
+            break;
+        case 1:
+            sort = [NSSortDescriptor sortDescriptorWithKey:@"characterCount" ascending:!aMenuView.reverseSort.on];
+            break;
+        case 2:
+            sort = [NSSortDescriptor sortDescriptorWithKey:@"displaySize" ascending:!aMenuView.reverseSort.on];
+            break;
+        default:
+            break;
+    }
+    [self.fontCatalogue sortUsingDescriptors:[NSArray arrayWithObject:sort]];
+    [self.tableView reloadData];
+    //[pv dismiss];
 }
-
-- (void)menuViewReverseSortBtnPressed:(MenuView*)menuView{
-    
-}
-
 
 @end

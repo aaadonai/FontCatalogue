@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		8F7D1B97751049CFBB74CA01 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0A6A02086B6740AE89B74078 /* libPods.a */; };
 		A997D49D17BA51E000C37F1D /* MenuView.m in Sources */ = {isa = PBXBuildFile; fileRef = A997D49C17BA51E000C37F1D /* MenuView.m */; };
+		A99FC2E417BCF220008FEEED /* Font.m in Sources */ = {isa = PBXBuildFile; fileRef = A99FC2E317BCF220008FEEED /* Font.m */; };
 		A9DA761617B9068800904832 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A9DA761517B9068800904832 /* UIKit.framework */; };
 		A9DA761817B9068800904832 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A9DA761717B9068800904832 /* Foundation.framework */; };
 		A9DA761A17B9068800904832 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A9DA761917B9068800904832 /* CoreGraphics.framework */; };
@@ -28,6 +29,8 @@
 		0A6A02086B6740AE89B74078 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		A997D49B17BA51E000C37F1D /* MenuView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MenuView.h; sourceTree = "<group>"; };
 		A997D49C17BA51E000C37F1D /* MenuView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MenuView.m; sourceTree = "<group>"; };
+		A99FC2E217BCF220008FEEED /* Font.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Font.h; sourceTree = "<group>"; };
+		A99FC2E317BCF220008FEEED /* Font.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Font.m; sourceTree = "<group>"; };
 		A9DA761217B9068800904832 /* FontCatalogue.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FontCatalogue.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A9DA761517B9068800904832 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		A9DA761717B9068800904832 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -107,6 +110,8 @@
 				A9DA763B17B90A1F00904832 /* FontCell.m */,
 				A997D49B17BA51E000C37F1D /* MenuView.h */,
 				A997D49C17BA51E000C37F1D /* MenuView.m */,
+				A99FC2E217BCF220008FEEED /* Font.h */,
+				A99FC2E317BCF220008FEEED /* Font.m */,
 				A9DA762F17B9068800904832 /* FontCatalogue.xcdatamodeld */,
 				A9DA761E17B9068800904832 /* Supporting Files */,
 			);
@@ -233,6 +238,7 @@
 				A9DA763917B909CF00904832 /* FontTableViewController.m in Sources */,
 				A9DA763C17B90A1F00904832 /* FontCell.m in Sources */,
 				A997D49D17BA51E000C37F1D /* MenuView.m in Sources */,
+				A99FC2E417BCF220008FEEED /* Font.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

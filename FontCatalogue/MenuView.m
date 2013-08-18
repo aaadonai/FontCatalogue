@@ -41,14 +41,14 @@
         alignmentLabel.backgroundColor = [UIColor clearColor];
         [self addSubview:alignmentLabel];
         NSArray *itemArray = [NSArray arrayWithObjects: @"Left", @"Right", nil];
-        UISegmentedControl *segmentedControl = [[UISegmentedControl alloc] initWithItems:itemArray];
-        segmentedControl.frame = CGRectMake(15, 65, 120, 25);
-        segmentedControl.segmentedControlStyle = UISegmentedControlStylePlain;
-        segmentedControl.selectedSegmentIndex = 0;
-        [segmentedControl addTarget:self
+        self.alignmentSegmentedControl = [[UISegmentedControl alloc] initWithItems:itemArray];
+        self.alignmentSegmentedControl.frame = CGRectMake(15, 65, 120, 25);
+        self.alignmentSegmentedControl.segmentedControlStyle = UISegmentedControlStylePlain;
+        self.alignmentSegmentedControl.selectedSegmentIndex = 0;
+        [self.alignmentSegmentedControl addTarget:self
                              action:@selector(align:)
                    forControlEvents:UIControlEventValueChanged];
-        [self addSubview:segmentedControl];
+        [self addSubview:self.alignmentSegmentedControl];
         
         //Adding Backwards Switch
         UILabel *backwardsLabel = [[UILabel alloc] init];
@@ -57,25 +57,25 @@
         backwardsLabel.backgroundColor = [UIColor clearColor];
         [self addSubview:backwardsLabel];
 
-        UISwitch *backwards = [[UISwitch alloc] initWithFrame: CGRectMake(100,95,79,27)];
-        [backwards addTarget: self action: @selector(backwards:) forControlEvents:UIControlEventValueChanged];
-        [self addSubview: backwards];
+        self.backwards = [[UISwitch alloc] initWithFrame: CGRectMake(100,95,79,27)];
+        [self.backwards addTarget: self action: @selector(backwards:) forControlEvents:UIControlEventValueChanged];
+        [self addSubview: self.backwards];
         
         //Adding Sort Segment Control
         UILabel *sortLabel = [[UILabel alloc] init];
         sortLabel.frame = CGRectMake(10, 125, 120, 25);
-        sortLabel.text = @"Align";
+        sortLabel.text = @"Sort by name";
         sortLabel.backgroundColor = [UIColor clearColor];
         [self addSubview:sortLabel];
         NSArray *sortArray = [NSArray arrayWithObjects: @"Alpha", @"Count", @"Size", nil];
-        UISegmentedControl *sortSegmentedControl = [[UISegmentedControl alloc] initWithItems:sortArray];
-        sortSegmentedControl.frame = CGRectMake(15, 155, 200, 25);
-        sortSegmentedControl.segmentedControlStyle = UISegmentedControlStylePlain;
-        sortSegmentedControl.selectedSegmentIndex = 0;
-        [sortSegmentedControl addTarget:self
+        self.sortSegmentedControl = [[UISegmentedControl alloc] initWithItems:sortArray];
+        self.sortSegmentedControl.frame = CGRectMake(15, 155, 200, 25);
+        self.sortSegmentedControl.segmentedControlStyle = UISegmentedControlStylePlain;
+        self.sortSegmentedControl.selectedSegmentIndex = -1;//none are selected at start
+        [self.sortSegmentedControl addTarget:self
                              action:@selector(sort:)
                    forControlEvents:UIControlEventValueChanged];
-        [self addSubview:sortSegmentedControl];
+        [self addSubview:self.sortSegmentedControl];
 
         //Adding Reverse Sort Switch
         UILabel *reverseLabel = [[UILabel alloc] init];
@@ -84,9 +84,9 @@
         reverseLabel.backgroundColor = [UIColor clearColor];
         [self addSubview:reverseLabel];
         
-        UISwitch *reverseSort = [[UISwitch alloc] initWithFrame: CGRectMake(130,185,79,27)];
-        [reverseSort addTarget: self action: @selector(reverse:) forControlEvents:UIControlEventValueChanged];
-        [self addSubview: reverseSort];
+        self.reverseSort = [[UISwitch alloc] initWithFrame: CGRectMake(130,185,79,27)];
+        [self.reverseSort addTarget: self action: @selector(reverse:) forControlEvents:UIControlEventValueChanged];
+        [self addSubview: self.reverseSort];
 
 
     }
@@ -102,6 +102,8 @@
 }
 */
 
+#pragma mark - Custom methods
+
 - (void)revert:(id)sender{
     DLog(@"revert pressed!");
     [self.delegate menuViewRevertBtnPressed:self];
@@ -114,31 +116,42 @@
 
 - (void)align:(id)sender{
     DLog(@"align pressed!");
-    UISegmentedControl *segmentedControl = (UISegmentedControl *)sender;
-    self.alignmentOption = [segmentedControl selectedSegmentIndex];
+//    UISegmentedControl *aSegmentedControl = (UISegmentedControl *)sender;
+//    self.alignment = [aSegmentedControl selectedSegmentIndex];
     [self.delegate menuViewAlignBtnPressed:self];
 }
 
 - (void)backwards:(id)sender{
     DLog(@"backwards pressed!");
-    UISwitch *backwards = (UISwitch*)sender;
-    self.backwardsSwitch = backwards.on;
+//    UISwitch *aBackwards = (UISwitch*)sender;
+//    self.backwardsSwitch = aBackwards.on;
     [self.delegate menuViewBackwardsBtnPressed:self];
 }
 
 - (void)sort:(id)sender{
     DLog(@"sort pressed!");
-    UISegmentedControl *segmentedControl = (UISegmentedControl *)sender;
-    self.sortOption = [segmentedControl selectedSegmentIndex];
+//    UISegmentedControl *aSegmentedControl = (UISegmentedControl *)sender;
+//    self.sortOption = [aSegmentedControl selectedSegmentIndex];
     [self.delegate menuViewSortBtnPressed:self];
 }
 
 - (void)reverse:(id)sender{
     DLog(@"reverse pressed!");
-    UISwitch *reverse = (UISwitch*)sender;
-    self.reverseSortSwitch = reverse.on;
-    [self.delegate menuViewRevertBtnPressed:self];
+//    UISwitch *reverse = (UISwitch*)sender;
+//    self.reverseSortSwitch = reverse.on;
+    if (self.sortSegmentedControl.selectedSegmentIndex == -1){
+        self.sortSegmentedControl.selectedSegmentIndex = 0;
+        
+    }
+    [self.delegate menuViewSortBtnPressed:self];
 }
+
+- (void)reset{
+    self.alignmentSegmentedControl.selectedSegmentIndex = 0;
+    self.backwards.on = NO;
+    self.sortSegmentedControl.selectedSegmentIndex = -1;
+    self.reverseSort.on = NO;
+ }
 
 
 
